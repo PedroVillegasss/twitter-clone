@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+
   def index
     @posts = Post.all
   end
@@ -39,6 +40,18 @@ class PostsController < ApplicationController
       end
     end
   end
+
+  def destroy
+    @post = Post.find(params[:id])
+    if current_user.id == @post.user_id
+      @post.destroy
+      respond_to do |format|
+          format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
+          format.json { head :no_content }
+      end
+    end
+  end
+
 
   private
 
