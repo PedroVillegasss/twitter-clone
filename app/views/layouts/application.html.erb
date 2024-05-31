@@ -126,10 +126,15 @@
             </div>
 
             <div class="row">
-              <%= button_to 'Log out', destroy_user_session_path, method: :delete%>
-              <%= link_to 'Log in', new_user_session_path %>
-
+              <%= button_to 'Log in', new_user_session_path, class: 'btn btn-primary' %>
             </div>
+
+            <div class="row mt-4">
+              <% if user_signed_in? %>
+                <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-secondary'%>
+              <% end %>
+            </div>
+
           </footer>
         </div>
       </div>

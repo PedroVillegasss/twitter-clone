@@ -1,14 +1,88 @@
-<h1><%= @user.name%></h1>
-<h1><%= @user.email%></h1>
+<div class="container mt-2">
 
-<h1>Posts</h1>
+<svg xmlns="http://www.w3.org/2000/svg" width="60px" height="60px" viewBox="0 0 15 15" fill="black"><path d="M5 5.5C5 4.11929 6.11929 3 7.5 3C8.88071 3 10 4.11929 10 5.5C10 6.88071 8.88071 8 7.5 8C6.11929 8 5 6.88071 5 5.5Z" fill="black"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 0C3.35786 0 0 3.35786 0 7.5C0 11.6421 3.35786 15 7.5 15C11.6421 15 15 11.6421 15 7.5C15 3.35786 11.6421 0 7.5 0ZM1 7.5C1 3.91015 3.91015 1 7.5 1C11.0899 1 14 3.91015 14 7.5C14 9.34956 13.2275 11.0187 11.9875 12.2024C11.8365 10.4086 10.3328 9 8.5 9H6.5C4.66724 9 3.16345 10.4086 3.01247 12.2024C1.77251 11.0187 1 9.34956 1 7.5Z" fill="black"></path></svg>    <h1 style="font-weight: 400;"><%= @current_user.name%></h1>
+    <p style="color: rgb(86, 86, 86); font-size: 20px"><%= @current_user.email%></p>
+    <p style="color: rgb(86, 86, 86); font-size: 15px"> Joined in <%= @current_user.created_at.strftime("%B %Y")%></p>
 
-<% @user.posts.each do |post|%>
-    <%= post.title%>
-<% end %>
 
-<h1>Comments</h1>
-<% @user_comments = Comment.where(user_id: @user.id)%>
-<% @user_comments.each do |comment|%>
-    <%= comment.body%>
-<% end %>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Posts
+            </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <% @current_user.posts.each do |post| %>
+                <%user_id = post.user_id%>
+                <%user = User.find(user_id)%>
+                <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%=post.title%></h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary"><%=user.name%></h6>
+                    <p class="card-text"><%=post.content%></p>
+
+                    <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi" width="28" height="28"><g><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path></g></svg>
+                    <%= post.comments.count %> Comments
+                    </div>
+
+                    <a href="#" class="card-link"><%= link_to 'Go to', post_path(post), class: 'btn btn-secondary mt-3' %></a>
+                    <a href="#" class="card-link"><%= link_to 'Edit', edit_post_path(post), class: 'btn btn-secondary mt-3' %></a>
+                </div>
+                </div>
+                <% end %>
+            </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Replies
+            </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <% @current_user_comments = Comment.where(user_id: @current_user.id)%>
+                    
+                    <% @current_user_comments.each do |comment| %>
+                    <% user_id = comment.user_id %>
+                    <% user = User.find(user_id) %>
+                    <% post_id = comment.post_id %>
+                    <% post = Post.find(post_id) %>
+
+                    <div class="card border-0 shadow-sm mb-3" style="background-color: white;">
+                        <div class="card-body p-3">
+                        <div class="d-flex align-items-center mb-2 justify-content-between">
+                            <h6 class="card-subtitle mb-0">
+                            "<%= post.title %>"
+                            </h6>
+                            <h6 class="card-subtitle mb-0">
+                            <%= user.name %>
+                            </h6>
+                        </div>
+
+                        <br>
+
+                        <p class="card-text mb-2"> <%= comment.body%></p>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                            <a href="#" class="card-link"><%= link_to 'Show', comment_path(comment), class: 'btn text-muted p-0 mr-2' %></a>
+                            <a href="#" class="card-link"><%= link_to 'Edit', edit_comment_path(comment), class: 'btn text-muted p-0 mr-2'%></a>
+                            <a href="#" class="card-link"><%= link_to 'Destroy', comment, data: { turbo_confirm: 'Are you sure?', turbo_method: "delete"}, class: 'btn text-muted p-0 mr-2'%></a>
+                            </div>
+                            <div>
+                            <button type="button" class="btn btn-link text-secondary p-0 mr-2"><i class="far fa-heart"></i></button>
+                            <button type="button" class="btn btn-link text-secondary p-0"><i class="fas fa-retweet"></i></button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <% end %>   
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
