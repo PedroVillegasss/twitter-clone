@@ -1,2 +1,44 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+.card {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    color: black !important;
+}
+  
+#post-navbar-btn {
+    margin-top: 10px;
+    background-color: #1DA1F2; 
+    color: white;
+    border: none; 
+    border-radius: 9999px; 
+    font-size: 0.905rem;
+}
+
+#post-navbar-btn-2 {
+    margin-top: 10px;
+    background-color: #1DA1F2; 
+    color: white;
+    border: none; 
+    border-radius: 9999px; 
+    font-size: 0.905rem;
+    opacity: 0.7;
+    width: 80px;
+    text-align: center;
+}
+
+.custom-alert {
+    font-size: 14px;
+    color: white;
+    background-color: #1DA1F2; 
+    border-color: #1DA1F2; 
+    font-weight: bold;
+}
+  
+.container-custom {
+    max-width: 150px; 
+    margin: 0 auto;
+    margin-top: 10px; 
+}
+  

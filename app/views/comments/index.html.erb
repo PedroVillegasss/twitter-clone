@@ -1,35 +1,36 @@
+<%# <%= link_to 'New Comment', new_comment_path, class: 'btn btn-secondary mt-3', style: 'margin-top: 10px'%>
 
-<h1>Comments</h1>
+<% @comments.each do |comment| %>
+  <% user_id = comment.user_id %>
+  <% user = User.find(user_id) %>
+  <% post_id = comment.post_id %>
+  <% post = Post.find(post_id) %>
 
-<%= link_to 'New Comment', new_comment_path, class: 'btn btn-primary' %>
+  <div class="card border-0 shadow-sm mb-3" style="background-color: white;">
+    <div class="card-body p-3">
+      <div class="d-flex align-items-center mb-2 justify-content-between">
+        <h6 class="card-subtitle mb-0">
+          "<%= post.title %>"
+        </h6>
+        <h6 class="card-subtitle mb-0">
+          <%= user.name %>
+        </h6>
+      </div>
 
+      <br>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Body</th>
-      <th>User</th>
-      <th>Post</th>
-      <th> Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @comments.each do |comment| %>
-      <tr>
-        <td><%= comment.body %></td>
-        <td><a href="/users/<%= comment.user_id %>"><%= comment.user_id %></a></td>
-        <td><a href="/posts/<%= comment.post_id %>"><%= comment.post_id %></a></td>
-        <td>
-          <%= link_to 'Show', comment, class: 'btn btn-info' %>
-          <%= link_to 'Edit', edit_comment_path(comment), class: 'btn btn-warning' %>
-          <%= link_to 'Destroy', comment, data: { turbo_confirm: 'Are you sure?', turbo_method: "delete" }, class: 'btn btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-
+      <p class="card-text mb-2"> <%= comment.body%></p>
+      <div class="d-flex justify-content-between">
+        <div>
+          <a href="#" class="card-link"><%= link_to 'Show', comment_path(comment), class: 'btn text-muted p-0 mr-2' %></a>
+          <a href="#" class="card-link"><%= link_to 'Edit', edit_comment_path(comment), class: 'btn text-muted p-0 mr-2'%></a>
+          <a href="#" class="card-link"><%= link_to 'Destroy', comment, data: { turbo_confirm: 'Are you sure?', turbo_method: "delete"}, class: 'btn text-muted p-0 mr-2'%></a>
+        </div>
+        <div>
+          <button type="button" class="btn btn-link text-secondary p-0 mr-2"><i class="far fa-heart"></i></button>
+          <button type="button" class="btn btn-link text-secondary p-0"><i class="fas fa-retweet"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
