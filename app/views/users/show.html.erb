@@ -1,0 +1,14 @@
+<h1><%= @user.name%></h1>
+<h1><%= @user.email%></h1>
+
+<h1>Posts</h1>
+
+<% @user.posts.each do |post|%>
+    <%= post.title%>
+<% end %>
+
+<h1>Comments</h1>
+<% @user_comments = Comment.where(user_id: @user.id)%>
+<% @user_comments.each do |comment|%>
+    <%= comment.body%>
+<% end %>

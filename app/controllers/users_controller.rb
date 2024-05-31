@@ -1,15 +1,18 @@
 class UsersController < ApplicationController
   before_action :find_user, only: [:show, :edit, :update]
+  before_action :authenticate_user!
 
-  def index
-    @users = User.all
-  end
+  # def index
+  #   @users = User.all
+  # end
 
   def new
     @user = User.new
   end
 
-  def show ; end
+  def show
+    @user = current_user
+  end
 
   def create
     user = User.new user_params
