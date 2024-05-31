@@ -131,7 +131,7 @@
             <% end %>  
             </div>
 
-            <div class="row mt-4">
+            <div class="row">
               <% if user_signed_in? %>
                 <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-secondary'%>
               <% end %>
