@@ -1,1 +1,1 @@
-### Twitter clone built in Ruby on Rails.
+### Twitter clone built with Ruby on Rails.
